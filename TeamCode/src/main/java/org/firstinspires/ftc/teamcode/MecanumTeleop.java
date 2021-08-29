@@ -22,6 +22,7 @@ public class MecanumTeleop extends OpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
 
     }
 
