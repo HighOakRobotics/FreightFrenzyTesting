@@ -12,6 +12,7 @@ public class MecanumTeleop extends OpMode {
     @Override
     public void init() {
         telemetry.addData("Status", "Initializing...");
+        telemetry.update();
 
         frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
