@@ -32,8 +32,8 @@ public class MecanumTeleop extends OpMode {
         double drive;
         double strafe;
         double turn;
-        drive = gamepad1.left_stick_y;
-        strafe = -gamepad1.left_stick_x;
+        drive = -gamepad1.left_stick_y;
+        strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
 
         double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
