@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "MecanumDrive", group = "Quackology")
 public class MecanumTeleop extends OpMode {
-    private DcMotorEx frontLeft, frontRight, backLeft, backRight;
+    private DcMotorEx frontLeft, frontRight, backLeft, backRight, carouselMotor;
     private Servo servo;
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -29,6 +29,7 @@ public class MecanumTeleop extends OpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
+        carouselMotor = hardwareMap.get(DcMotorEx.class, "carouselMotor")
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -47,9 +48,12 @@ public class MecanumTeleop extends OpMode {
         double drive;
         double strafe;
         double turn;
+        boolean spin;
         drive = -gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
+        spin = gamepad1.y;
+
 
         double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
         double backLeftPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
@@ -60,6 +64,10 @@ public class MecanumTeleop extends OpMode {
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
         backLeft.setPower(backRightPower);
+
+        while (spin == true){
+            carouselMotor.setPower(1.0);
+        }
 
         // slew the servo, according to the rampUp (direction) variable.
         if (rampUp) {
