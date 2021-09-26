@@ -13,10 +13,15 @@ public class MecanumTeleOp extends OpMode {
     static final double MAX_POS     =  1.0;
     static final double MIN_POS     =  0.0;
 
+    double  position = (MAX_POS - MIN_POS) / 2;
+    boolean rampUp = true;
+
     DcMotorEx frontLeft;
     DcMotorEx frontRight;
     DcMotorEx backLeft;
     DcMotorEx backRight;
+
+    Servo servo;
 
     @Override
     public void init() {
@@ -25,28 +30,8 @@ public class MecanumTeleOp extends OpMode {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
 
-        servo = hardwareMap.get(Servo.class, "left_hand");
-
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        while(MecanumTeleOp()){
-
-            if (rampUp) {
-                position += INCREMENT ;
-                if (position >= MAX_POS ) {
-                    position = MAX_POS;
-                    rampUp = !rampUp;
-                }
-            }
-            else {
-                position -= INCREMENT;
-                if (position <= MIN_POS) {
-                    position = MIN_POS;
-                    rampUp = !rampUp;
-                }
-            }
-
     }
 
     @Override
@@ -60,11 +45,38 @@ public class MecanumTeleOp extends OpMode {
         double blPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
         double brPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
 
-
-
         frontLeft.setPower(flPower);
         frontRight.setPower(frPower);
         backLeft.setPower(blPower);
         backRight.setPower(brPower);
+
+        if (rampUp) {
+            position += INCREMENT ;
+            if (position >= MAX_POS ) {
+                position = MAX_POS;
+                rampUp = !rampUp;
+            }
+        }
+        else {
+            position -= INCREMENT;
+            if (position <= MIN_POS) {
+                position = MIN_POS;
+                rampUp = !rampUp;
+            }
+        }
+
+        servo.setPosition(position);
+        sleep(CYCLE_MS);
+        idle();
+    }
+    public final void idle() {
+        Thread.yield();
+    }
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
