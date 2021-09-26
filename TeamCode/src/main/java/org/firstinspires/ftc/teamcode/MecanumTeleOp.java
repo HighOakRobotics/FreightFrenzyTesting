@@ -21,6 +21,8 @@ public class MecanumTeleOp extends OpMode {
     DcMotorEx backLeft;
     DcMotorEx backRight;
 
+    DcMotorEx carouselMotor;
+
     Servo servo;
 
     @Override
@@ -29,6 +31,8 @@ public class MecanumTeleOp extends OpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
+
+        carouselMotor = hardwareMap.get(DcMotorEx.class, "carouselMotor");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -39,11 +43,16 @@ public class MecanumTeleOp extends OpMode {
         double drive = gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
+        boolean spin = gamepad1.y;
 
         double flPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
         double frPower = Range.clip(drive - strafe - turn, -1.0, 1.0);
         double blPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
         double brPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
+
+        while (spin = true) {
+            carouselMotor.setPower(1.0);
+        }
 
         frontLeft.setPower(flPower);
         frontRight.setPower(frPower);
