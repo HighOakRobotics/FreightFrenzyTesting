@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.Range;
+
 
 @TeleOp(name = "MecanumDrive", group = "Quackology")
 public class MecanumTeleOp extends OpMode {
@@ -57,10 +59,10 @@ public class MecanumTeleOp extends OpMode {
         double turn = gamepad1.right_stick_x;
 
 
-        double frontLeftPower = drive + strafe + turn ;
-        double frontRightPower = drive - strafe - turn;
-        double backLeftPower = drive + strafe - turn;
-        double backRightPower = drive - strafe + turn;
+        double frontLeftPower = Range.clip(drive + strafe + turn, -1.0,1.0) ;
+        double frontRightPower = Range.clip(drive - strafe - turn, -1.0, 1.0);
+        double backLeftPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
+        double backRightPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
 
 
         frontLeft.setPower(frontLeftPower);
@@ -91,11 +93,41 @@ public class MecanumTeleOp extends OpMode {
                         frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Servo Position", "%5.2f", position);
         telemetry.update();
+
         // Set the servo to the new position and pause;
 
-        //servo.setPosition(position);
-        //sleep(CYCLE_MS);
-        //idle();
+        servo.setPosition(position);
+        sleep(CYCLE_MS);
+        idle();
 
+    }
+    /**
+     * Puts the current thread to sleep for a bit as it has nothing better to do. This allows other
+     * threads in the system to run.
+     *
+     * <p>One can use this method when you have nothing better to do in your code as you await state
+     * managed by other threads to change. Calling idle() is entirely optional: it just helps make
+     * the system a little more responsive and a little more efficient.</p>
+     *
+     */
+    public final void idle() {
+        // Otherwise, yield back our thread scheduling quantum and give other threads at
+        // our priority level a chance to run
+        Thread.yield();
+    }
+
+    /**
+     * Sleeps for the given amount of milliseconds, or until the thread is interrupted. This is
+     * simple shorthand for the operating-system-provided {@link Thread#sleep(long) sleep()} method.
+     *
+     * @param milliseconds amount of time to sleep, in milliseconds
+     * @see Thread#sleep(long)
+     */
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
