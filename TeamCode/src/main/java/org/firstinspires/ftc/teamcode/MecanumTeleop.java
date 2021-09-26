@@ -29,7 +29,7 @@ public class MecanumTeleop extends OpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
-        carouselMotor = hardwareMap.get(DcMotorEx.class, "carouselMotor")
+        carouselMotor = hardwareMap.get(DcMotorEx.class, "carouselMotor");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
