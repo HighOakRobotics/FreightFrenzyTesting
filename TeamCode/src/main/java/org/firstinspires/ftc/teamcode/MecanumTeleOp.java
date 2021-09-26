@@ -14,15 +14,15 @@ import com.qualcomm.robotcore.util.Range;
 public class MecanumTeleOp extends OpMode {
 
 
-    private DcMotorEx frontLeft, frontRight, backLeft, backRight;
-    static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final int    CYCLE_MS    =   50;     // period of each cycle
-    static final double MAX_POS     =  1.0;     // Maximum rotational position
-    static final double MIN_POS     =  0.0;     // Minimum rotational position
+    private DcMotorEx frontLeft, frontRight, backLeft, backRight, carouselMotor;
+    static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle
+    static final int CYCLE_MS = 50;     // period of each cycle
+    static final double MAX_POS = 1.0;     // Maximum rotational position
+    static final double MIN_POS = 0.0;     // Minimum rotational position
 
     // Define class members
     Servo servo;
-    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     boolean rampUp = true;
 
 
@@ -57,77 +57,50 @@ public class MecanumTeleOp extends OpMode {
         double drive = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
+        boolean spin = gamepad1.y;
 
 
-        double frontLeftPower = Range.clip(drive + strafe + turn, -1.0,1.0) ;
+        double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
         double frontRightPower = Range.clip(drive - strafe - turn, -1.0, 1.0);
         double backLeftPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
         double backRightPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
-
 
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
 
+        while (spin == true) {
+            carouselMotor.setPower(1.0);
+        }
 
         // slew the servo, according to the rampUp (direction) variable.
         if (rampUp) {
             // Keep stepping up until we hit the max value.
-            position += INCREMENT ;
-            if (position >= MAX_POS ) {
+            position += INCREMENT;
+            if (position >= MAX_POS) {
                 position = MAX_POS;
                 rampUp = !rampUp;   // Switch ramp direction
             }
-        }
-        else {
+        } else {
             // Keep stepping down until we hit the min value.
-            position -= INCREMENT ;
-            if (position <= MIN_POS ) {
+            position -= INCREMENT;
+            if (position <= MIN_POS) {
                 position = MIN_POS;
                 rampUp = !rampUp;  // Switch ramp direction
             }
         }
 
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
-                        frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+                frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Servo Position", "%5.2f", position);
         telemetry.update();
 
         // Set the servo to the new position and pause;
 
         servo.setPosition(position);
-        sleep(CYCLE_MS);
-        idle();
 
     }
-    /**
-     * Puts the current thread to sleep for a bit as it has nothing better to do. This allows other
-     * threads in the system to run.
-     *
-     * <p>One can use this method when you have nothing better to do in your code as you await state
-     * managed by other threads to change. Calling idle() is entirely optional: it just helps make
-     * the system a little more responsive and a little more efficient.</p>
-     *
-     */
-    public final void idle() {
-        // Otherwise, yield back our thread scheduling quantum and give other threads at
-        // our priority level a chance to run
-        Thread.yield();
-    }
 
-    /**
-     * Sleeps for the given amount of milliseconds, or until the thread is interrupted. This is
-     * simple shorthand for the operating-system-provided {@link Thread#sleep(long) sleep()} method.
-     *
-     * @param milliseconds amount of time to sleep, in milliseconds
-     * @see Thread#sleep(long)
-     */
-    public final void sleep(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 }
+
