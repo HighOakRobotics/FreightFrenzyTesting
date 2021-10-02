@@ -94,8 +94,8 @@ public class MecanumTeleop extends OpMode {
 
         // Set the servo to the new position and pause;
         servo.setPosition(position);
-        sleep(CYCLE_MS);
-        idle();
+//        sleep(CYCLE_MS);
+//        idle();
     }
 
 
