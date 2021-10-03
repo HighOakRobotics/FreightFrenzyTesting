@@ -62,7 +62,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * the only color sensors that support this are the ones from REV Robotics. These infrared proximity
  * sensor measurements are only useful at very small distances, and are sensitive to ambient light
  * and surface reflectivity. You should use a different sensor if you need precise distance measurements.
- *
+ *a
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this Op Mode to the Driver Station OpMode list
  */
