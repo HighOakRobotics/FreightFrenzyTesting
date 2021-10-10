@@ -14,16 +14,16 @@ import com.qualcomm.robotcore.util.Range;
 public class MecanumTeleOp extends OpMode {
 
 
-    private DcMotorEx frontLeft, frontRight, backLeft, backRight, carouselMotor;
+    private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
     static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int CYCLE_MS = 50;     // period of each cycle
     static final double MAX_POS = 1.0;     // Maximum rotational position
     static final double MIN_POS = 0.0;     // Minimum rotational position
 
     // Define class members
-    Servo servo;
-    double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
-    boolean rampUp = true;
+    //Servo servo;
+    //double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    //boolean rampUp = true;
 
 
     @Override
@@ -37,7 +37,7 @@ public class MecanumTeleOp extends OpMode {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
-
+        carousel = hardwareMap.get(DcMotorEx.class, "carousel");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -45,7 +45,7 @@ public class MecanumTeleOp extends OpMode {
 
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
-        servo = hardwareMap.get(Servo.class, "left_hand");
+        //servo = hardwareMap.get(Servo.class, "carousel");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -55,22 +55,27 @@ public class MecanumTeleOp extends OpMode {
     @Override
     public void loop() {
         double drive = -gamepad1.left_stick_y;
-        double strafe = gamepad1.left_stick_x;
+        double strafe = -gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
-        boolean spin = gamepad1.y;
 
 
         double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
         double frontRightPower = Range.clip(drive - strafe - turn, -1.0, 1.0);
-        double backLeftPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
-        double backRightPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
+        double backLeftPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
+        double backRightPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
 
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
         backRight.setPower(backRightPower);
 
-        while (spin == true) {
+        if(gamepad1.x){
+            carousel.setPower(0.5);
+        }
+        if(gamepad1.a){
+            carousel.setPower(0);
+        }
+        /*while (carousel == true) {
             carouselMotor.setPower(1.0);
         }
 
@@ -90,15 +95,15 @@ public class MecanumTeleOp extends OpMode {
                 rampUp = !rampUp;  // Switch ramp direction
             }
         }
-
+*/
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-        telemetry.addData("Servo Position", "%5.2f", position);
+        //telemetry.addData("Servo Position", "%5.2f", position);
         telemetry.update();
 
         // Set the servo to the new position and pause;
 
-        servo.setPosition(position);
+        //servo.setPosition(position);
 
     }
 

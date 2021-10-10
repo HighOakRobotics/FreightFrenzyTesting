@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @Autonomous(name="Auto Drive By Encoder", group="Robot")
-@Disabled
 
 public class MecanumAutoByEncoder extends LinearOpMode{
 
