@@ -23,6 +23,7 @@ public class MecanumTeleop extends OpMode {
     boolean rampUp = true;
     Servo clawServo;
     Servo wristServo;
+    LiftM liftm;
 
     @Override
     public void init() {
@@ -43,6 +44,8 @@ public class MecanumTeleop extends OpMode {
 //        servo = hardwareMap.get(Servo.class, "left_hand");
         clawServo = hardwareMap.get(Servo.class, "clawservo");
         wristServo = hardwareMap.get(Servo.class,"wristservo");
+        liftm = new LiftM(hardwareMap);
+        liftm.init();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -114,11 +117,18 @@ public class MecanumTeleop extends OpMode {
         if(gamepad2.x){
             wristposition = 0.7;
         }
-
+        if(gamepad2.dpad_up){
+            liftm.moveByInchTele(2, 0.5);
+        }
+        if(gamepad2.dpad_down){
+            liftm.moveByInchTele(2, -0.5);
+        }
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Claw Position", "%5.2f", clawposition);
         telemetry.addData("Wrist Position", "%5.2f", wristposition);
+        telemetry.addData("lift Position", liftm.liftMotor.getCurrentPosition());
+        telemetry.addData("lift Target", liftm.targetPos);
         telemetry.update();
 
         // Set the servo to the new position and pause;
