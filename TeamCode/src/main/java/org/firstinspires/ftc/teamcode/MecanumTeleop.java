@@ -60,6 +60,7 @@ public class MecanumTeleop extends OpMode {
         drive = -gamepad1.left_stick_y;
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
+        boolean spin = gamepad1.y;
 
 
 
@@ -73,20 +74,15 @@ public class MecanumTeleop extends OpMode {
         backLeft.setPower(backLeftPower);
         backLeft.setPower(backRightPower);
 
-//        if(gamepad1.x){
-//            carousel.setPower(0.5);
-//        }
-//        if(gamepad1.a){
-//            carousel.setPower(0);
-//        }`
-//        while (carousel == true) {
-//            carouselMotor.setPower(1.0);
-//        }
-
-
-//        while (spin == true){
-//            carouselMotor.setPower(1.0);
-//        }
+        if(gamepad1.x){
+            carousel.setPower(0.5);
+        }
+        if(gamepad1.a){
+            carousel.setPower(0);
+        }
+        while (spin == true) {
+            carousel.setPower(1.0);
+        }
 //
 //        // slew the servo, according to the rampUp (direction) variable.
 //        if (rampUp) {
@@ -121,7 +117,7 @@ public class MecanumTeleop extends OpMode {
             liftm.moveByInchTele(2, 0.5);
         }
         if(gamepad2.dpad_down){
-            liftm.moveByInchTele(2, -0.5);
+            liftm.moveByInchTele(-2, 0.5);
         }
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
