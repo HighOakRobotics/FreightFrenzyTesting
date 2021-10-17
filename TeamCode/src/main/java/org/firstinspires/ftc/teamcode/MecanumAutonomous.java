@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Auto Drive By Encoder", group="Robot")
-@Disabled
+@Autonomous(name="Auto Drive By Encoder", group="Quackology")
+//@Disabled
 
 public class MecanumAutonomous extends LinearOpMode {
 
