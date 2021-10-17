@@ -15,16 +15,15 @@ public class MecanumTeleOp extends OpMode {
 
 
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
+    private Servo clawServo, wristServo;
     static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle
     static final int CYCLE_MS = 50;     // period of each cycle
     static final double MAX_POS = 1.0;     // Maximum rotational position
     static final double MIN_POS = 0.0;     // Minimum rotational position
 
-    // Define class members
-    //Servo servo;
-    //double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
-    //boolean rampUp = true;
-
+    double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    double clawPosition = 0.5;
+    double wristPosition = 0.7;
 
     @Override
 
@@ -38,6 +37,8 @@ public class MecanumTeleOp extends OpMode {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         carousel = hardwareMap.get(DcMotorEx.class, "carousel");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -57,6 +58,7 @@ public class MecanumTeleOp extends OpMode {
         double drive = -gamepad1.left_stick_y;
         double strafe = -gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
+        boolean spin = gamepad1.y;
 
 
         double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
@@ -75,35 +77,31 @@ public class MecanumTeleOp extends OpMode {
         if(gamepad1.a){
             carousel.setPower(0);
         }
-        /*while (carousel == true) {
-            carouselMotor.setPower(1.0);
+        while (spin == true) {
+            carousel.setPower(1.0);
         }
 
-        // slew the servo, according to the rampUp (direction) variable.
-        if (rampUp) {
-            // Keep stepping up until we hit the max value.
-            position += INCREMENT;
-            if (position >= MAX_POS) {
-                position = MAX_POS;
-                rampUp = !rampUp;   // Switch ramp direction
-            }
-        } else {
-            // Keep stepping down until we hit the min value.
-            position -= INCREMENT;
-            if (position <= MIN_POS) {
-                position = MIN_POS;
-                rampUp = !rampUp;  // Switch ramp direction
-            }
+        if(gamepad2.a){
+            clawPosition = 1.0;
         }
-*/
+
+        if(gamepad2.y){
+            clawPosition = 0.0;
+        }
+        if(gamepad2.b){
+            wristPosition = 0.9;
+        }
+        if(gamepad2.x){
+            wristPosition = 0.7;
+        }
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-        //telemetry.addData("Servo Position", "%5.2f", position);
+        telemetry.addData("Claw Position", "%5.2f", clawPosition);
+        telemetry.addData("Wrist Position", "%5.2f", wristPosition);
         telemetry.update();
 
-        // Set the servo to the new position and pause;
-
-        //servo.setPosition(position);
+        clawServo.setPosition(clawPosition);
+        wristServo.setPosition(wristPosition);
 
     }
 
