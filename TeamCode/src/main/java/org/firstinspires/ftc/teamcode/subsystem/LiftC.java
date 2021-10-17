@@ -13,12 +13,13 @@ public class LiftC {
     //protected TeleBug teleBug;
 
     private static final double TICKS_PER_MOTOR_REV     = 1120; //Andymark motor on rev 40 gear box
-    private static final double WHEEL_DIAMETER_INCHES   = 3.0;     //For circumference
+    private static final double WHEEL_DIAMETER_INCHES   = 1.5;     //For circumference
     public static final double TICKS_PER_INCH = TICKS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     private static final int POSITIONING_TOLERANCE = 30; //The amount of ticks the DriveByInch method should be allowed to deviate by
     public static int BOTTOM = 0; //positon at the bottom
     private static final int TOP = 6000; //positon at the top
+    public int targetPos;
 
     public LiftC (HardwareMap hwMap){
         this.hwMap = hwMap;
@@ -44,9 +45,9 @@ public class LiftC {
     }
 
     public void moveByInchTele(double inches, double power){
-        int targetPos = (int)(inches * TICKS_PER_INCH);
+        targetPos = (int)(inches * TICKS_PER_INCH);
 
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         liftMotor.setPower(power);
 

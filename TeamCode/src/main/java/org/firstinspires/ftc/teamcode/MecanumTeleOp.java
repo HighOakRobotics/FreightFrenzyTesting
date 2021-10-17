@@ -41,6 +41,7 @@ public class MecanumTeleOp extends OpMode {
         carousel = hardwareMap.get(DcMotorEx.class, "carousel");
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
+        liftc = new LiftC(hardwareMap);
         liftc.init();
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -98,16 +99,17 @@ public class MecanumTeleOp extends OpMode {
             wristPosition = 0.7;
         }
         if(gamepad1.dpad_up){
-            liftc.moveByInch(2,0.5);
+            liftc.moveByInchTele(2,0.5);
         }
         if(gamepad1.dpad_down){
-            liftc.moveByInch(-2,0.5);
+            liftc.moveByInchTele(2,-0.5);
         }
 
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Claw Position", "%5.2f", clawPosition);
         telemetry.addData("Wrist Position", "%5.2f", wristPosition);
+        telemetry.addData("Lift Position", liftc.targetPos);
         telemetry.update();
 
         clawServo.setPosition(clawPosition);
