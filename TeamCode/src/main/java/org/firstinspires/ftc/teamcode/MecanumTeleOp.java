@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.subsystem.LiftC;
+
 
 @TeleOp(name = "MecanumDrive", group = "Quackology")
 public class MecanumTeleOp extends OpMode {
@@ -24,7 +26,7 @@ public class MecanumTeleOp extends OpMode {
     double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double clawPosition = 0.5;
     double wristPosition = 0.7;
-
+    LiftC liftc;
     @Override
 
 
@@ -39,6 +41,7 @@ public class MecanumTeleOp extends OpMode {
         carousel = hardwareMap.get(DcMotorEx.class, "carousel");
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
+        liftc.init();
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -94,6 +97,13 @@ public class MecanumTeleOp extends OpMode {
         if(gamepad2.x){
             wristPosition = 0.7;
         }
+        if(gamepad1.dpad_up){
+            liftc.moveByInch(2,0.5);
+        }
+        if(gamepad1.dpad_down){
+            liftc.moveByInch(-2,0.5);
+        }
+
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Claw Position", "%5.2f", clawPosition);
