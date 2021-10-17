@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name = "MecanumDrive", group = "Quackology")
 public class MecanumTeleop extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
+    private Servo clawServo, wristServo;
 //    private Servo servo;
 
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -20,9 +21,7 @@ public class MecanumTeleop extends OpMode {
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double clawposition = 0.5;
     double wristposition = 0.7;
-    boolean rampUp = true;
-    Servo clawServo;
-    Servo wristServo;
+//    boolean rampUp = true;
     LiftM liftm;
 
     @Override
