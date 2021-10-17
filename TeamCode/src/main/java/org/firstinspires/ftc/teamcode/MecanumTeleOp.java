@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.subsystem.LiftC;
 @TeleOp(name = "MecanumDrive", group = "Quackology")
 public class MecanumTeleOp extends OpMode {
 
-
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
     private Servo clawServo, wristServo;
     static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle
@@ -23,12 +22,13 @@ public class MecanumTeleOp extends OpMode {
     static final double MAX_POS = 1.0;     // Maximum rotational position
     static final double MIN_POS = 0.0;     // Minimum rotational position
 
+
     double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double clawPosition = 0.5;
-    double wristPosition = 0.7;
+    double wristdPosition = 0.7;
     LiftC liftc;
-    @Override
 
+    @Override
 
     public void init() {
         telemetry.addData("Status", "Initializing...");
@@ -39,18 +39,15 @@ public class MecanumTeleOp extends OpMode {
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         carousel = hardwareMap.get(DcMotorEx.class, "carousel");
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        wristServo = hardwareMap.get(Servo.class, "wristServo");
+        clawServo = hardwareMap.get(Servo.class, "clawservo");
+        wristServo = hardwareMap.get(Servo.class, "wristservo");
+
         liftc = new LiftC(hardwareMap);
         liftc.init();
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
-        // Connect to servo (Assume PushBot Left Hand)
-        // Change the text in quotes to match any servo name on your robot.
-        //servo = hardwareMap.get(Servo.class, "carousel");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -84,11 +81,9 @@ public class MecanumTeleOp extends OpMode {
         while (spin == true) {
             carousel.setPower(1.0);
         }
-
         if(gamepad2.a){
             clawPosition = 1.0;
         }
-
         if(gamepad2.y){
             clawPosition = 0.0;
         }
@@ -116,6 +111,4 @@ public class MecanumTeleOp extends OpMode {
         wristServo.setPosition(wristPosition);
 
     }
-
 }
-
