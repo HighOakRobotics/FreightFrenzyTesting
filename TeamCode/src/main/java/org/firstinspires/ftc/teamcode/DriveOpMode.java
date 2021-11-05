@@ -18,7 +18,6 @@ public class DriveOpMode extends SequoiaOpMode {
     Drivetrain drivetrain = new Drivetrain();
     Spinner spinner = new Spinner();
     Arm arm = new Arm();
-    DuckDetector duckdetector = new DuckDetector();
 
     @Override
     public void initTriggers() {

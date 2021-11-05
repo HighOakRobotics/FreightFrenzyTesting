@@ -55,7 +55,7 @@ public class DuckDetector extends Subsystem {
         camera.openCameraDevice();
         camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
 
-        camera.setPipeline(new RingPipeline());
+        camera.setPipeline(new DuckPipeline());
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DuckDetector extends Subsystem {
         return DuckPOS;
     }
 
-    static class RingPipeline extends OpenCvPipeline {
+    static class DuckPipeline extends OpenCvPipeline {
         enum Stage {//color difference. greyscale
             detection,//includes outlines
             THRESHOLD,//b&w
@@ -162,7 +162,7 @@ public class DuckDetector extends Subsystem {
             Imgproc.circle(all, pointBottom, 5, RED, 1);//draws circle
             Imgproc.circle(all, pointTop, 5, RED, 1);//draws circle
 
-            //draw 2 rectangles
+            //draw 3 rectangles
             Imgproc.rectangle(//top
                     all,
                     new Point(
@@ -171,6 +171,15 @@ public class DuckDetector extends Subsystem {
                     new Point(
                             input.cols() * (topPos[0] + rectWidth / 2),
                             input.rows() * (topPos[1] + rectHeight)),
+                    GREEN, 2);
+            Imgproc.rectangle(//middle
+                    all,
+                    new Point(
+                            input.cols() * (bottomPos[0] - rectWidth / 2),
+                            input.rows() * (bottomPos[1] - rectHeight / 2)),
+                    new Point(
+                            input.cols() * (bottomPos[0] + rectWidth / 2),
+                            input.rows() * (bottomPos[1] + rectHeight / 2)),
                     GREEN, 2);
             Imgproc.rectangle(//bottom
                     all,
