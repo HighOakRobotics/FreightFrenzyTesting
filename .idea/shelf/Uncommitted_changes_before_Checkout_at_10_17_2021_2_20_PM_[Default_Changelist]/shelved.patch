@@ -1,0 +1,46 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumTeleOp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode;\r\n\r\nimport com.qualcomm.robotcore.eventloop.opmode.OpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport com.qualcomm.robotcore.hardware.DcMotorEx;\r\nimport com.qualcomm.robotcore.hardware.DcMotorSimple;\r\nimport com.qualcomm.robotcore.hardware.Servo;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Disabled;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.util.Range;\r\n\r\nimport org.firstinspires.ftc.teamcode.subsystem.LiftC;\r\n\r\n\r\n@TeleOp(name = \"MecanumDrive\", group = \"Quackology\")\r\npublic class MecanumTeleOp extends OpMode {\r\n\r\n\r\n    private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;\r\n    private Servo clawServo, wristServo;\r\n    static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle\r\n    static final int CYCLE_MS = 50;     // period of each cycle\r\n    static final double MAX_POS = 1.0;     // Maximum rotational position\r\n    static final double MIN_POS = 0.0;     // Minimum rotational position\r\n\r\n    double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position\r\n    double clawPosition = 0.5;\r\n    double wristPosition = 0.7;\r\n    LiftC liftc;\r\n    @Override\r\n\r\n\r\n    public void init() {\r\n        telemetry.addData(\"Status\", \"Initializing...\");\r\n\r\n\r\n        frontLeft = hardwareMap.get(DcMotorEx.class, \"frontLeft\");\r\n        frontRight = hardwareMap.get(DcMotorEx.class, \"frontRight\");\r\n        backLeft = hardwareMap.get(DcMotorEx.class, \"backLeft\");\r\n        backRight = hardwareMap.get(DcMotorEx.class, \"backRight\");\r\n        carousel = hardwareMap.get(DcMotorEx.class, \"carousel\");\r\n        clawServo = hardwareMap.get(Servo.class, \"clawServo\");\r\n        wristServo = hardwareMap.get(Servo.class, \"wristServo\");\r\n        liftc.init();\r\n\r\n        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);\r\n        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);\r\n\r\n\r\n        // Connect to servo (Assume PushBot Left Hand)\r\n        // Change the text in quotes to match any servo name on your robot.\r\n        //servo = hardwareMap.get(Servo.class, \"carousel\");\r\n\r\n        telemetry.addData(\"Status\", \"Initialized\");\r\n        telemetry.update();\r\n\r\n    }\r\n\r\n    @Override\r\n    public void loop() {\r\n        double drive = -gamepad1.left_stick_y;\r\n        double strafe = -gamepad1.left_stick_x;\r\n        double turn = gamepad1.right_stick_x;\r\n        boolean spin = gamepad1.y;\r\n\r\n\r\n        double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);\r\n        double frontRightPower = Range.clip(drive - strafe - turn, -1.0, 1.0);\r\n        double backLeftPower = Range.clip(drive - strafe + turn, -1.0, 1.0);\r\n        double backRightPower = Range.clip(drive + strafe - turn, -1.0, 1.0);\r\n\r\n        frontLeft.setPower(frontLeftPower);\r\n        frontRight.setPower(frontRightPower);\r\n        backLeft.setPower(backLeftPower);\r\n        backRight.setPower(backRightPower);\r\n\r\n        if(gamepad1.x){\r\n            carousel.setPower(0.5);\r\n        }\r\n        if(gamepad1.a){\r\n            carousel.setPower(0);\r\n        }\r\n        while (spin == true) {\r\n            carousel.setPower(1.0);\r\n        }\r\n\r\n        if(gamepad2.a){\r\n            clawPosition = 1.0;\r\n        }\r\n\r\n        if(gamepad2.y){\r\n            clawPosition = 0.0;\r\n        }\r\n        if(gamepad2.b){\r\n            wristPosition = 0.9;\r\n        }\r\n        if(gamepad2.x){\r\n            wristPosition = 0.7;\r\n        }\r\n        if(gamepad1.dpad_up){\r\n            liftc.moveByInch(2,0.5);\r\n        }\r\n        if(gamepad1.dpad_down){\r\n            liftc.moveByInch(-2,0.5);\r\n        }\r\n\r\n        telemetry.addData(\"Motors\", \"frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)\",\r\n                frontLeftPower, frontRightPower, backLeftPower, backRightPower);\r\n        telemetry.addData(\"Claw Position\", \"%5.2f\", clawPosition);\r\n        telemetry.addData(\"Wrist Position\", \"%5.2f\", wristPosition);\r\n        telemetry.update();\r\n\r\n        clawServo.setPosition(clawPosition);\r\n        wristServo.setPosition(wristPosition);\r\n\r\n    }\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumTeleOp.java b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumTeleOp.java
+--- a/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumTeleOp.java	
++++ b/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/MecanumTeleOp.java	
+@@ -26,7 +26,7 @@
+     double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+     double clawPosition = 0.5;
+     double wristPosition = 0.7;
+-    LiftC liftc;
++    LiftE lifte;
+     @Override
+ 
+ 
+@@ -39,9 +39,10 @@
+         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
+         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
+         carousel = hardwareMap.get(DcMotorEx.class, "carousel");
+-        clawServo = hardwareMap.get(Servo.class, "clawServo");
+-        wristServo = hardwareMap.get(Servo.class, "wristServo");
+-        liftc.init();
++        clawServo = hardwareMap.get(Servo.class, "clawservo");
++        wristServo = hardwareMap.get(Servo.class, "wristservo");
++        lifte = new LiftE(hardwareMap);
++        lifte.init();
+ 
+         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+@@ -98,10 +99,10 @@
+             wristPosition = 0.7;
+         }
+         if(gamepad1.dpad_up){
+-            liftc.moveByInch(2,0.5);
++            lifte.moveByInch(2,0.5);
+         }
+         if(gamepad1.dpad_down){
+-            liftc.moveByInch(-2,0.5);
++            lifte.moveByInch(-2,0.5);
+         }
+ 
+         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",

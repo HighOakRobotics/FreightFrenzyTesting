@@ -4,10 +4,12 @@ import com.ftc11392.sequoia.SequoiaOpMode;
 
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Drivetrain;
+import org.firstinspires.ftc.teamcode.subsystem.DuckDetector;
 import org.firstinspires.ftc.teamcode.subsystem.Spinner;
 import org.firstinspires.ftc.teamcode.task.GamepadDriveTask;
 import org.firstinspires.ftc.teamcode.task.InterpolateArmTask;
 import org.firstinspires.ftc.teamcode.task.SpinCarouselTask;
+import org.firstinspires.ftc.teamcode.task.DuckDetectorTask;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +18,7 @@ public class DriveOpMode extends SequoiaOpMode {
     Drivetrain drivetrain = new Drivetrain();
     Spinner spinner = new Spinner();
     Arm arm = new Arm();
+    DuckDetector duckdetector = new DuckDetector();
 
     @Override
     public void initTriggers() {
