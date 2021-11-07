@@ -3,12 +3,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "MecanumDrive", group = "Quackology")
-public class MecanumTeleop extends OpMode {
+public class MecanumTeleOp extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
     private Servo clawServo, wristServo;
 //    private Servo servo;
