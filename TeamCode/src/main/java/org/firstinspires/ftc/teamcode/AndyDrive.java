@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "MecanumDrive", group = "Quackology")
+@TeleOp(name = "AndyDrive", group = "Quackology")
 public class AndyDrive extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
     private Servo clawServo, wristServo;
@@ -71,12 +71,15 @@ public class AndyDrive extends OpMode {
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
-        backLeft.setPower(backRightPower);
+        backRight.setPower(backRightPower);
 
-        if(gamepad1.x){
+        if(gamepad1.b){
             carousel.setPower(0.5);
         }
-        if(gamepad1.a){
+        if(gamepad1.x){
+            carousel.setPower(-0.5);
+        }
+        if(gamepad1.a) {
             carousel.setPower(0);
         }
         while (spin == true) {
@@ -107,7 +110,7 @@ public class AndyDrive extends OpMode {
             clawposition = 0.0;
         }
         if(gamepad2.b){
-            wristposition = 0.9;
+            wristposition = 1.0;
         }
         if(gamepad2.x){
             wristposition = 0.7;
