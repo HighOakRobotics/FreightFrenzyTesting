@@ -7,21 +7,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "MecanumDrive", group = "Quackology")
-public class MecanumTeleop extends OpMode {
+@TeleOp(name = "AndyDrive", group = "Quackology")
+public class AndyDrive extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
     private Servo clawServo, wristServo;
 //    private Servo servo;
 
-    static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final int    CYCLE_MS    =   50;     // period of each cycle
-    static final double MAX_POS     =  1.0;     // Maximum rotational position
-    static final double MIN_POS     =  0.0;     // Minimum rotational position
+    static final double INCREMENT = 0.01;     // amount to slew servo each CYCLE_MS cycle
+    static final int CYCLE_MS = 50;     // period of each cycle
+    static final double MAX_POS = 1.0;     // Maximum rotational position
+    static final double MIN_POS = 0.0;     // Minimum rotational position
 
-    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double clawposition = 0.5;
     double wristposition = 0.7;
-//    boolean rampUp = true;
+    //    boolean rampUp = true;
     LiftM liftm;
 
     @Override
@@ -42,7 +42,7 @@ public class MecanumTeleop extends OpMode {
         // Change the text in quotes to match any servo name on your robot.
 //        servo = hardwareMap.get(Servo.class, "left_hand");
         clawServo = hardwareMap.get(Servo.class, "clawservo");
-        wristServo = hardwareMap.get(Servo.class,"wristservo");
+        wristServo = hardwareMap.get(Servo.class, "wristservo");
         liftm = new LiftM(hardwareMap);
         liftm.init();
 
@@ -62,7 +62,6 @@ public class MecanumTeleop extends OpMode {
         boolean spin = gamepad1.y;
 
 
-
         double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
         double backLeftPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
         double frontRightPower = Range.clip(drive - strafe - turn, -1.0, 1.0);
@@ -71,16 +70,15 @@ public class MecanumTeleop extends OpMode {
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
-        backLeft.setPower(backRightPower);
+        backRight.setPower(backRightPower);
 
-        if(gamepad1.x){
-            carousel.setPower(0.5);
+        if (gamepad1.b) {
+            carousel.setPower(-0.8);
         }
-        if(gamepad1.a){
+        if (gamepad1.x) {
+            carousel.setPower(0.8);
+        }        if (gamepad1.a) {
             carousel.setPower(0);
-        }
-        while (spin == true) {
-            carousel.setPower(1.0);
         }
 //
 //        // slew the servo, according to the rampUp (direction) variable.
@@ -100,22 +98,22 @@ public class MecanumTeleop extends OpMode {
 //                rampUp = !rampUp;  // Switch ramp direction
 //            }
 //        }
-        if(gamepad2.a){
+        if (gamepad2.a) {
             clawposition = 1.0;
         }
-        if(gamepad2.y){
+        if (gamepad2.y) {
             clawposition = 0.0;
         }
-        if(gamepad2.b){
-            wristposition = 0.9;
+        if (gamepad2.b) {
+            wristposition = 0.8;
         }
-        if(gamepad2.x){
-            wristposition = 0.7;
+        if (gamepad2.x) {
+            wristposition = 0.45;
         }
-        if(gamepad2.dpad_up){
+        if (gamepad2.dpad_up) {
             liftm.moveByInchTele(2, 0.5);
         }
-        if(gamepad2.dpad_down){
+        if (gamepad2.dpad_down) {
             liftm.moveByInchTele(-2, 0.5);
         }
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
@@ -132,6 +130,7 @@ public class MecanumTeleop extends OpMode {
 //        sleep(CYCLE_MS);
 //        idle();
     }
+}
 
 
     /**
@@ -144,11 +143,11 @@ public class MecanumTeleop extends OpMode {
      *
      *
      */
-    public final void idle() {
-        // Otherwise, yield back our thread scheduling quantum and give other threads at
-        // our priority level a chance to run
-        Thread.yield();
-    }
+//    public final void idle() {
+//        // Otherwise, yield back our thread scheduling quantum and give other threads at
+//        // our priority level a chance to run
+//        Thread.yield();
+//    }
 
     /**
      * Sleeps for the given amount of milliseconds, or until the thread is interrupted. This is
@@ -156,13 +155,13 @@ public class MecanumTeleop extends OpMode {
      *
      * @param milliseconds amount of time to sleep, in milliseconds
      * @see Thread#sleep(long)
-     */
-    public final void sleep(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-}
+//     */
+//    public final void sleep(long milliseconds) {
+//        try {
+//            Thread.sleep(milliseconds);
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
+//    }
+//
+//}
