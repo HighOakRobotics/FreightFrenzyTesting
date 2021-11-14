@@ -20,7 +20,7 @@ public class MecanumTeleOp extends OpMode {
     double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double clawposition = 0.5;
     double wristposition = 0.7;
-//    boolean rampUp = true;
+    //    boolean rampUp = true;
     LiftM liftm;
 
     @Override
