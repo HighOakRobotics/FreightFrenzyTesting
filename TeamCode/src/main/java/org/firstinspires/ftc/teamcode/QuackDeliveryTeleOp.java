@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "QuackDeliveryTeleOtsp", group = "Quackology")
+@TeleOp(name = "QuackDeliveryTeleOp", group = "Quackology")
 public class QuackDeliveryTeleOp extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel, intake;
     private Servo wristServo;
@@ -57,10 +57,10 @@ public class QuackDeliveryTeleOp extends OpMode {
         turn = gamepad1.right_stick_x;
 
 
-        double frontLeftPower = Range.clip(drive + strafe + turn, -1.0, 1.0);
-        double backLeftPower = Range.clip(drive - strafe + turn, -1.0, 1.0);
-        double frontRightPower = Range.clip(drive - strafe - turn, -1.0, 1.0);
-        double backRightPower = Range.clip(drive + strafe - turn, -1.0, 1.0);
+        double frontLeftPower = Range.clip(drive + strafe + turn, -0.75, 0.75);
+        double backLeftPower = Range.clip(drive - strafe + turn, -0.75, 0.75);
+        double frontRightPower = Range.clip(drive - strafe - turn, -0.75,0.75);
+        double backRightPower = Range.clip(drive + strafe - turn, -0.75, 0.75);
 
         frontLeft.setPower(frontLeftPower);
         frontRight.setPower(frontRightPower);
@@ -68,32 +68,34 @@ public class QuackDeliveryTeleOp extends OpMode {
         backRight.setPower(backRightPower);
 
         if (gamepad1.x) {
-            carousel.setPower(1.0);
+            carousel.setPower(-0.4);
         }
         if (gamepad1.b) {
-            carousel.setPower(-1.0);
+            carousel.setPower(0.4);
         }
         if (gamepad1.a) {
             carousel.setPower(0);
+        }
+        if (gamepad2.a) {
             intake.setPower(0);
         }
-        if (gamepad1.left_bumper) {
+        if (gamepad2.b) {
             intake.setPower(0.5);
         }
-        if (gamepad1.right_bumper) {
+        if (gamepad2.x) {
             intake.setPower(-0.5);
         }
-        if (gamepad1.dpad_right) {
+        if (gamepad2.dpad_right) {
             wristServo.setPosition(0.1);
         }
-        if (gamepad1.dpad_left) {
+        if (gamepad2.dpad_left) {
             wristServo.setPosition(0.5);
         }
-        if (gamepad1.dpad_up) {
-            shoulderm.moveByInchTele(2, 0.25);
+        if (gamepad2.dpad_up) {
+            shoulderm.moveByInchTele(2, 0.15);
         }
-        if (gamepad1.dpad_down) {
-            shoulderm.moveByInchTele(-2, 0.25);
+        if (gamepad2.dpad_down) {
+            shoulderm.moveByInchTele(-2, 0.15);
         }
 
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
