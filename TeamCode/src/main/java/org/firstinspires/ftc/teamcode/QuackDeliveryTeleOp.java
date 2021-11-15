@@ -11,12 +11,13 @@ public class QuackDeliveryTeleOp extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel, intake;
     private Servo wristServo;
 
-    static final double INCREMENT   = 0.01;
-    static final int    CYCLE_MS    =   50;
-    static final double MAX_POS     =  1.0;
-    static final double MIN_POS     =  0.0;
+//    static final double INCREMENT   = 0.01;
+//    static final int    CYCLE_MS    =   50;
+//    static final double MAX_POS     =  1.0;
+//    static final double MIN_POS     =  0.0;
 
-    double  position = (MAX_POS - MIN_POS) / 2;
+//    double  position = (MAX_POS - MIN_POS) / 2;
+
     double wristposition = 0.7;
     boolean rampUp = true;
     ShoulderM shoulderm;
