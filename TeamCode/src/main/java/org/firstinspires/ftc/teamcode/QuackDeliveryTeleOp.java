@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -7,20 +8,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "QuackDeliveryTeleOp", group = "Quackology")
+//@Disabled
+
 public class QuackDeliveryTeleOp extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel, intake;
     private Servo wristServo;
-
-//    static final double INCREMENT   = 0.01;
-//    static final int    CYCLE_MS    =   50;
-//    static final double MAX_POS     =  1.0;
-//    static final double MIN_POS     =  0.0;
-
-//    double  position = (MAX_POS - MIN_POS) / 2;
-
-    double wristposition = 0.7;
-    boolean rampUp = true;
-    ShoulderM shoulderm;
+    private ShoulderM shoulderm;
+    private boolean upPressed;
+    private boolean downPressed;
 
     @Override
     public void init() {
@@ -41,11 +36,11 @@ public class QuackDeliveryTeleOp extends OpMode {
 
         shoulderm = new ShoulderM(hardwareMap);
         shoulderm.init();
-
+        upPressed = false;
+        downPressed = false;
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
     }
 
     @Override
@@ -92,33 +87,26 @@ public class QuackDeliveryTeleOp extends OpMode {
         if (gamepad2.dpad_left) {
             wristServo.setPosition(0.5);
         }
-        if (gamepad2.dpad_up) {
+        if (gamepad2.dpad_up && !upPressed) {
+            upPressed = !upPressed;
             shoulderm.moveByInchTele(2, 0.15);
         }
-        if (gamepad2.dpad_down) {
+        else if (!gamepad2.dpad_up) {
+            upPressed = false;
+        }
+        else if (gamepad2.dpad_down &&! downPressed) {
             shoulderm.moveByInchTele(-2, 0.15);
+            downPressed = true;
+        }
+        else if (!gamepad2.dpad_down) {
+            downPressed = false;
         }
 
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-        telemetry.addData("Wrist Position", "%5.2f", wristposition);
+        telemetry.addData("Wrist Position", "%5.2f", wristServo.getPosition());
         telemetry.addData("lift Position", shoulderm.shoulderMotor.getCurrentPosition());
         telemetry.addData("lift Target", shoulderm.targetPos);
         telemetry.update();
     }
-
-//    public final void idle() {
-//        // Otherwise, yield back our thread scheduling quantum and give other threads at
-//        // our priority level a chance to run
-//        Thread.yield();
-//    }
-//
-//    public final void sleep(long milliseconds) {
-//        try {
-//            Thread.sleep(milliseconds);
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//        }
-//    }
-
 }
