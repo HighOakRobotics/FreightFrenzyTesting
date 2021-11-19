@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Auto Drive By Encoder", group="Quackology")
+@Autonomous(name="AutoBlueRight", group="Quackology")
 //@Disabled
 
 public class AutoBlueRight extends LinearOpMode {

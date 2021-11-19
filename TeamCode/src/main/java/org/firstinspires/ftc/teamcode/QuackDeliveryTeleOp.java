@@ -72,6 +72,13 @@ public class QuackDeliveryTeleOp extends OpMode {
         if (gamepad1.a) {
             carousel.setPower(0);
         }
+        if (gamepad1.dpad_up && !upPressed) {
+            upPressed = !upPressed;
+            shoulderm.moveByInchTele(0.5, 0.5);
+        }
+        else if (!gamepad1.dpad_up) {
+            upPressed = false;
+        }
         if (gamepad2.a) {
             intake.setPower(0);
         }
@@ -89,14 +96,14 @@ public class QuackDeliveryTeleOp extends OpMode {
         }
         if (gamepad2.dpad_up && !upPressed) {
             upPressed = !upPressed;
-            shoulderm.moveByInchTele(-2, 0.15);
+            shoulderm.moveByInchTele(1, 0.5);
         }
-        if (!gamepad2.dpad_up) {
+        else if (!gamepad2.dpad_up) {
             upPressed = false;
         }
-        else if (gamepad2.dpad_down &&! downPressed) {
-            shoulderm.moveByInchTele(2, 0.15);
-            downPressed = true;
+        if (gamepad2.dpad_down && !downPressed) {
+            downPressed = !downPressed;
+            shoulderm.moveByInchTele(-1, 0.3);
         }
         else if (!gamepad2.dpad_down) {
             downPressed = false;
