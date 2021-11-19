@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.subsystem.LiftC;
 
 
-@TeleOp(name = "MecanumDrive", group = "Quackology")
+@TeleOp(name = "MecanumDriveC", group = "Quackology")
 public class MecanumTeleOp extends OpMode {
 
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel;
@@ -25,7 +25,7 @@ public class MecanumTeleOp extends OpMode {
 
     double position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
     double clawPosition = 0.5;
-    double wristdPosition = 0.7;
+    double wristPosition = 0.7;
     LiftC liftc;
 
     @Override
@@ -97,7 +97,7 @@ public class MecanumTeleOp extends OpMode {
             liftc.moveByInchTele(2,0.5);
         }
         if(gamepad1.dpad_down){
-            liftc.moveByInchTele(2,-0.5);
+            liftc.moveByInchTele(-2,0.5);
         }
 
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",

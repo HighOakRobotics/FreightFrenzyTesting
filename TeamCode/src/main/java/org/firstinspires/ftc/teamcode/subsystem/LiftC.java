@@ -17,8 +17,8 @@ public class LiftC {
     public static final double TICKS_PER_INCH = TICKS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     private static final int POSITIONING_TOLERANCE = 30; //The amount of ticks the DriveByInch method should be allowed to deviate by
-    public static int BOTTOM = 0; //positon at the bottom
-    private static final int TOP = 6000; //positon at the top
+    public static int BOTTOM = 0; //position at the bottom
+    private static final int TOP = 6000; //position at the top
     public int targetPos;
 
     public LiftC (HardwareMap hwMap){
@@ -28,6 +28,7 @@ public class LiftC {
     public void init() {
         liftMotor = hwMap.get(DcMotorEx.class, "lift");
         liftMotor.setTargetPositionTolerance(POSITIONING_TOLERANCE);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void moveByInch(double inches, double power){
