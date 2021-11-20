@@ -10,8 +10,8 @@ public class ShoulderM {
     protected HardwareMap hwMap;
     //protected TeleBug teleBug;
 
-    private static final double TICKS_PER_MOTOR_REV     = 1120; //Andymark motor on rev 20 gear box
-    private static final double WHEEL_DIAMETER_INCHES   = 1.5;     // For figuring circumference
+    private static final double TICKS_PER_MOTOR_REV     = 105; //1120; //Andymark motor on rev 20 gear box
+    private static final double WHEEL_DIAMETER_INCHES   = 1.0;     // For figuring circumference
     public static final double TICKS_PER_INCH = TICKS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
 
     private static final int POSITIONING_TOLERANCE = 30; //The amount of ticks the DriveByInch method should be allowed to deviate by
@@ -50,11 +50,7 @@ public class ShoulderM {
 
         shoulderMotor.setPower(power);
 
-        //prevent going past 0?
-        if (shoulderMotor.getCurrentPosition() + targetPos < BOTTOM-1)
-            shoulderMotor.setTargetPosition(BOTTOM-1);
-        else
-            shoulderMotor.setTargetPosition(shoulderMotor.getCurrentPosition() + targetPos);
+        shoulderMotor.setTargetPosition(shoulderMotor.getCurrentPosition() + targetPos);
 
         shoulderMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
