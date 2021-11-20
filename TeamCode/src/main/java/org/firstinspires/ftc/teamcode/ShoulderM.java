@@ -10,7 +10,7 @@ public class ShoulderM {
     protected HardwareMap hwMap;
     //protected TeleBug teleBug;
 
-    private static final double TICKS_PER_MOTOR_REV     = 105; //1120; //Andymark motor on rev 20 gear box
+    private static final double TICKS_PER_MOTOR_REV     = 30; //1120; //Andymark motor on rev 20 gear box
     private static final double WHEEL_DIAMETER_INCHES   = 1.0;     // For figuring circumference
     public static final double TICKS_PER_INCH = TICKS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
 

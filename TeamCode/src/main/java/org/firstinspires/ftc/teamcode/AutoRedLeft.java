@@ -68,12 +68,17 @@ public class AutoRedLeft extends SequoiaOpMode {
                     backRight.setPower(0);
                 }),
                 new InstantTask(() -> {
+                    carousel.setPower(0.6);
+                }),
+                new WaitTask(5,TimeUnit.SECONDS),
+                new InstantTask(() -> {
+                    carousel.setPower(0);
                     frontLeft.setPower(0.6);
-                    frontRight.setPower(0.6);
-                    backLeft.setPower(0.6);
+                    frontRight.setPower(-0.6);
+                    backLeft.setPower(-0.6);
                     backRight.setPower(0.6);
                 }),
-                new WaitTask(1,TimeUnit.SECONDS),
+                new WaitTask(3,TimeUnit.SECONDS),
                 new InstantTask(() -> {
                     frontLeft.setPower(0);
                     frontRight.setPower(0);
