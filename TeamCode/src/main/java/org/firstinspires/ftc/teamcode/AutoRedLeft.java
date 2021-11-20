@@ -59,6 +59,7 @@ public class AutoRedLeft extends SequoiaOpMode {
                     frontRight.setPower(-0.5);
                     backLeft.setPower(0.5);
                     backRight.setPower(0.5);
+                }),
                 new WaitTask(500, TimeUnit.MILLISECONDS),
                 new InstantTask(() -> {
                     frontLeft.setPower(-0.6);
@@ -90,7 +91,7 @@ public class AutoRedLeft extends SequoiaOpMode {
                     frontRight.setPower(0);
                     backLeft.setPower(0);
                     backRight.setPower(0);
-                })})
+                })
         ));
 
     }
