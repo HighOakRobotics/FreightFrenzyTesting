@@ -74,7 +74,7 @@ public class QuackDeliveryTeleOp extends OpMode {
         }
         if (gamepad1.dpad_up && !upPressed) {
             upPressed = !upPressed;
-            shoulderm.moveByInchTele(0.5, 0.5);
+            shoulderm.moveByInchTele(-5.0, 1.0);
         }
         else if (!gamepad1.dpad_up) {
             upPressed = false;
@@ -96,14 +96,14 @@ public class QuackDeliveryTeleOp extends OpMode {
         }
         if (gamepad2.dpad_up && !upPressed) {
             upPressed = !upPressed;
-            shoulderm.moveByInchTele(1, 0.5);
+            shoulderm.moveByInchTele(-2, 1.0);
         }
         else if (!gamepad2.dpad_up) {
             upPressed = false;
         }
         if (gamepad2.dpad_down && !downPressed) {
             downPressed = !downPressed;
-            shoulderm.moveByInchTele(-1, 0.3);
+            shoulderm.moveByInchTele(1, 0.3);
         }
         else if (!gamepad2.dpad_down) {
             downPressed = false;
@@ -112,8 +112,8 @@ public class QuackDeliveryTeleOp extends OpMode {
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Wrist Position", "%5.2f", wristServo.getPosition());
-        telemetry.addData("lift Position", shoulderm.shoulderMotor.getCurrentPosition());
-        telemetry.addData("lift Target", shoulderm.targetPos);
+        telemetry.addData("Shoulder Position", shoulderm.shoulderMotor.getCurrentPosition());
+        telemetry.addData("Shoulder Target", shoulderm.targetPos);
         telemetry.update();
     }
 }
