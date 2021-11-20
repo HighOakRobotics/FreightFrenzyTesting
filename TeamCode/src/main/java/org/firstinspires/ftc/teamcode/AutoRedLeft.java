@@ -55,33 +55,44 @@ public class AutoRedLeft extends SequoiaOpMode {
     public void runTriggers() {
         scheduler.schedule(new SequentialTaskBundle(
                 new InstantTask(() -> {
+                    frontLeft.setPower(0.5);
+                    frontRight.setPower(-0.5);
+                    backLeft.setPower(0.5);
+                    backRight.setPower(0.5);
+                new WaitTask(500, TimeUnit.MILLISECONDS),
+                new InstantTask(() -> {
+                    frontLeft.setPower(-0.6);
+                    frontRight.setPower(0.6);
+                    backLeft.setPower(-0.6);
+                    backRight.setPower(0.6);
+                }),
+                new WaitTask(1000, TimeUnit.MILLISECONDS),
+                new InstantTask(() -> {
+                    frontLeft.setPower(0);
+                    frontRight.setPower(0);
+                    backLeft.setPower(0);
+                    backRight.setPower(0);
+                }),
+                new InstantTask(() -> {
+                    carousel.setPower(0.6);
+                }),
+                new WaitTask(5,TimeUnit.SECONDS),
+                new InstantTask(() -> {
+                    carousel.setPower(0);
                     frontLeft.setPower(-0.6);
                     frontRight.setPower(0.6);
                     backLeft.setPower(0.6);
                     backRight.setPower(-0.6);
                 }),
-                new WaitTask(1, TimeUnit.SECONDS),
+                new WaitTask(3,TimeUnit.SECONDS),
                 new InstantTask(() -> {
                     frontLeft.setPower(0);
                     frontRight.setPower(0);
                     backLeft.setPower(0);
                     backRight.setPower(0);
-                }),
-                new InstantTask(() -> {
-                    frontLeft.setPower(0.6);
-                    frontRight.setPower(0.6);
-                    backLeft.setPower(0.6);
-                    backRight.setPower(0.6);
-                }),
-                new WaitTask(1,TimeUnit.SECONDS),
-                new InstantTask(() -> {
-                    frontLeft.setPower(0);
-                    frontRight.setPower(0);
-                    backLeft.setPower(0);
-                    backRight.setPower(0);
-                })
-
+                })})
         ));
 
     }
 }
+
