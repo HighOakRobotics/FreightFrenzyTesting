@@ -7,13 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+
 @TeleOp(name = "QuackDeliveryTeleOp", group = "Quackology")
 //@Disabled
 
 public class QuackDeliveryTeleOp extends OpMode {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight, carousel, intake;
     private Servo wristServo;
-    private ShoulderM shoulderm;
+    private ShoulderM shoulderMotor;
     private boolean upPressed;
     private boolean downPressed;
 
@@ -34,8 +35,8 @@ public class QuackDeliveryTeleOp extends OpMode {
 
         wristServo = hardwareMap.get(Servo.class,"wrist");
 
-        shoulderm = new ShoulderM(hardwareMap);
-        shoulderm.init();
+        shoulderMotor = new ShoulderM(hardwareMap);
+        shoulderMotor.init();
         upPressed = false;
         downPressed = false;
 
@@ -74,7 +75,7 @@ public class QuackDeliveryTeleOp extends OpMode {
         }
         if (gamepad1.dpad_up && !upPressed) {
             upPressed = !upPressed;
-            shoulderm.moveByInchTele(-5.0, 1.0);
+            shoulderMotor.moveByInchTele(5.0, 1.0);
         }
         else if (!gamepad1.dpad_up) {
             upPressed = false;
@@ -83,27 +84,36 @@ public class QuackDeliveryTeleOp extends OpMode {
             intake.setPower(0);
         }
         if (gamepad2.b) {
-            intake.setPower(0.5);
+            intake.setPower(1.0);
         }
         if (gamepad2.x) {
-            intake.setPower(-0.5);
+            intake.setPower(-1.0);
+        }
+        if (gamepad2.y) {
+            shoulderMotor.moveByInchTele(-10,1.0);
         }
         if (gamepad2.dpad_right) {
             wristServo.setPosition(0.1);
         }
         if (gamepad2.dpad_left) {
-            wristServo.setPosition(0.5);
+            wristServo.setPosition(0.65);
+        }
+        if (gamepad2.right_bumper) {
+            shoulderMotor.moveByInchTele(40,1.0);
+        }
+        if (gamepad2.left_bumper) {
+            shoulderMotor.moveByInchTele(80,1.0);
         }
         if (gamepad2.dpad_up && !upPressed) {
             upPressed = !upPressed;
-            shoulderm.moveByInchTele(-2, 1.0);
+            shoulderMotor.moveByInchTele(120, 1.0);
         }
         else if (!gamepad2.dpad_up) {
             upPressed = false;
         }
         if (gamepad2.dpad_down && !downPressed) {
             downPressed = !downPressed;
-            shoulderm.moveByInchTele(1, 0.3);
+            shoulderMotor.moveByInchTele(-120, 1.0);
         }
         else if (!gamepad2.dpad_down) {
             downPressed = false;
@@ -112,8 +122,8 @@ public class QuackDeliveryTeleOp extends OpMode {
         telemetry.addData("Motors", "frontLeft (%.2f), frontRight (%.2f), backLeft (%.2f), backRight(%.2f)",
                 frontLeftPower, frontRightPower, backLeftPower, backRightPower);
         telemetry.addData("Wrist Position", "%5.2f", wristServo.getPosition());
-        telemetry.addData("Shoulder Position", shoulderm.shoulderMotor.getCurrentPosition());
-        telemetry.addData("Shoulder Target", shoulderm.targetPos);
+        telemetry.addData("Shoulder Position", shoulderMotor.shoulderMotor.getCurrentPosition());
+        telemetry.addData("Shoulder Target", shoulderMotor.targetPos);
         telemetry.update();
     }
 }

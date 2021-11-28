@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "AutoBluePark", group = "Quackology")
+@TeleOp(name = "AutoRedPark", group = "Quackology")
 //@Disabled
 
 public class AutoRedPark extends LinearOpMode {
